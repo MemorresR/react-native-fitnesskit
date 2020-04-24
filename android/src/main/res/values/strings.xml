@@ -1,0 +1,4 @@
+<resources>
+    <string name="not_available">Google fit not available</string>
+    <string name="date_not_correct">Date not correct</string>
+</resources>
