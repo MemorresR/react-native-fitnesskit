@@ -49,6 +49,14 @@ RCT_REMAP_METHOD(getDistance,withInput:(NSDictionary *)input withDistanceResolve
 }
 
 
+/*Get energy*/
+RCT_REMAP_METHOD(getEnergyCount,withInput:(NSDictionary *)input withEnergyResolver:(RCTPromiseResolveBlock)resolve
+                 andEnergyRejecter:(RCTPromiseRejectBlock)reject)
+{
+    [self fitnessGetEnergy:input resolve:resolve reject:reject];
+}
+
+
     // check if HealthData is available
 -(void)isHealthKitAvailable:resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject
 {
