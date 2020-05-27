@@ -1,7 +1,7 @@
 {
   "name": "@memorres/react-native-fitnesskit",
   "title": "React Native Fitnesskit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A React Native package that gives you access to Apple Health kit and Google Fit data.",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "fitness",
     "healthkit"
   ],
-   "author": {
+  "author": {
     "name": "Memorres",
     "email": "ranjana@memorres.com"
   },
