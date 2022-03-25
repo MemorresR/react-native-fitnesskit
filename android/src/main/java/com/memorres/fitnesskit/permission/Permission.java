@@ -11,7 +11,9 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
         Permission.STEP,
         Permission.DISTANCE,
         Permission.ACTIVITY,
-        Permission.CALORIES
+        Permission.CALORIES,
+        Permission.HEART_RATE,
+        Permission.SLEEP_ANALYSIS,
 })
 
 public @interface Permission {
@@ -20,4 +22,5 @@ public @interface Permission {
     int ACTIVITY = 2;
     int CALORIES = 3;
     int HEART_RATE = 4;
+    int SLEEP_ANALYSIS = 5;
 }

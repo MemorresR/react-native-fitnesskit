@@ -17,6 +17,7 @@
         @"ActiveEnergyBurned" : [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierActiveEnergyBurned],
         @"BasalEnergyBurned" : [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBasalEnergyBurned],
         @"DietaryEnergy" : [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierDietaryEnergyConsumed],
+        @"SleepAnalysis" : [HKObjectType categoryTypeForIdentifier: HKCategoryTypeIdentifierSleepAnalysis],
     };
     return readPerms;
 }

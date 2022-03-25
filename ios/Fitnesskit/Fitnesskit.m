@@ -6,6 +6,7 @@
 #import "Fitnesskit+Methods_HeartRate.h"
 #import "Fitnesskit+Methods_Distance.h"
 #import "Fitnesskit+Methods_Energy.h"
+#import "Fitnesskit+Methods_Sleep.h"
 #import "Fitnesskit+Errors.h"
 
 @implementation Fitnesskit
@@ -54,6 +55,14 @@ RCT_REMAP_METHOD(getEnergyCount,withInput:(NSDictionary *)input withEnergyResolv
                  andEnergyRejecter:(RCTPromiseRejectBlock)reject)
 {
     [self fitnessGetEnergy:input resolve:resolve reject:reject];
+}
+
+
+/*Get sleep*/
+RCT_REMAP_METHOD(getSleepData,withInput:(NSDictionary *)input withSleepResolver:(RCTPromiseResolveBlock)resolve
+                 andSleepRejecter:(RCTPromiseRejectBlock)reject)
+{
+    [self fitnessGetSleepData:input resolve:resolve reject:reject];
 }
 
 

@@ -18,7 +18,7 @@
 + (HKSampleType *)hkQuantityTypeFromString:(NSString *)type;
 + (HKQuantityType *)HKObjectTypeFromString:(NSString *)type;
 + (HKQuantityType *)HKEnergyTypeFromString:(NSString *)type;
-
++ (NSDate *)dateFromTimeStamp: (NSTimeInterval) timestamp;
 + (HKUnit *)hkUnitFromOptions:(NSDictionary *)options key:(NSString *)key withDefault:(HKUnit *)defaultValue;
 + (NSUInteger)uintFromOptions:(NSDictionary *)options key:(NSString *)key withDefault:(NSUInteger)defaultValue;
 + (double)doubleFromOptions:(NSDictionary *)options key:(NSString *)key withDefault:(double)defaultValue;
@@ -28,5 +28,5 @@
 
 + (NSMutableArray *)reverseNSMutableArray:(NSMutableArray *)array;
 + (NSString*) stringForHKWorkoutActivityType:(int) enumValue;
-
++ (NSString *)buildISO8601StringSleepFromDate:(NSDate *)date;
 @end

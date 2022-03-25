@@ -28,4 +28,5 @@ DietaryEnergy: Platform.select({
   android:"" /*Only for ios */
 }),
   HeartRate: "HeartRate",
+  SleepAnalysis: 'SleepAnalysis',
 }

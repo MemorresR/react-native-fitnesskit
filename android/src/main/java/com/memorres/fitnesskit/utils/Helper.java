@@ -79,6 +79,8 @@ public class Helper {
                 return 3;
             case "HEARTRATE" :
                 return 4;
+            case "SLEEPANALYSIS" :
+                return 5;
         }
         return 0;
     }
