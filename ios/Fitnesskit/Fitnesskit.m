@@ -7,6 +7,7 @@
 #import "Fitnesskit+Methods_Distance.h"
 #import "Fitnesskit+Methods_Energy.h"
 #import "Fitnesskit+Methods_Sleep.h"
+#import "Fitnesskit+Methods_Weight.h"
 #import "Fitnesskit+Errors.h"
 
 @implementation Fitnesskit
@@ -63,6 +64,14 @@ RCT_REMAP_METHOD(getSleepData,withInput:(NSDictionary *)input withSleepResolver:
                  andSleepRejecter:(RCTPromiseRejectBlock)reject)
 {
     [self fitnessGetSleepData:input resolve:resolve reject:reject];
+}
+
+
+/*Save weight data*/
+RCT_REMAP_METHOD(saveWeightData,withInput:(NSDictionary *)input withWeightResolver:(RCTPromiseResolveBlock)resolve
+                 andWeightRejecter:(RCTPromiseRejectBlock)reject)
+{
+    [self fitnessSaveWeightData:input resolve:resolve reject:reject];
 }
 
 

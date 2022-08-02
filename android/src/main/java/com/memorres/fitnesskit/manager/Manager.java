@@ -71,20 +71,21 @@ public class Manager implements ActivityEventListener {
         Log.d("GooglePlayServices", "Available");
         Log.d("Permmission", String.valueOf(checkPermissions(activity)));
 
-        return checkPermissions(activity);
+        return true;
     }
 
     private static boolean checkPermissions(final Activity activity) {
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACTIVITY_RECOGNITION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity,
-                    new String[]{"Manifest.permission.ACTIVITY_RECOGNITION"},
-                    MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION);
-            return true;
-        }
-        else {
-            return false;
-        }
+//        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACTIVITY_RECOGNITION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(activity,
+//                    new String[]{"Manifest.permission.ACTIVITY_RECOGNITION"},
+//                    MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION);
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
+        return false;
     }
 
     protected FitnessOptions.Builder addPermissionToFitnessOptions(final FitnessOptions.Builder fitnessOptions, final ArrayList<Request> permissions) {

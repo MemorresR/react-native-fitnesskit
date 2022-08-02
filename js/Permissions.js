@@ -29,4 +29,6 @@ DietaryEnergy: Platform.select({
 }),
   HeartRate: "HeartRate",
   SleepAnalysis: 'SleepAnalysis',
+  BodyFatPercentage: 'BodyFatPercentage',
+  BodyMass: 'BodyMass',
 }
