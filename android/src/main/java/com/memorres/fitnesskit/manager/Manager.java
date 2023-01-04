@@ -14,6 +14,8 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.memorres.fitnesskit.permission.Request;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -43,6 +45,7 @@ import static com.memorres.fitnesskit.permission.Permission.ACTIVITY;
 import static com.memorres.fitnesskit.permission.Permission.CALORIES;
 import static com.memorres.fitnesskit.permission.Permission.DISTANCE;
 import static com.memorres.fitnesskit.permission.Permission.HEART_RATE;
+import static com.memorres.fitnesskit.permission.Permission.SLEEP_ANALYSIS;
 import static com.memorres.fitnesskit.permission.Permission.STEP;
 
 public class Manager implements ActivityEventListener {
@@ -52,6 +55,7 @@ public class Manager implements ActivityEventListener {
     private static final int MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION = 101;
     private Promise promise;
     private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault());
+
 
     private static boolean isGooglePlayServicesAvailable(final Activity activity) {
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
@@ -67,20 +71,21 @@ public class Manager implements ActivityEventListener {
         Log.d("GooglePlayServices", "Available");
         Log.d("Permmission", String.valueOf(checkPermissions(activity)));
 
-        return checkPermissions(activity);
+        return true;
     }
 
     private static boolean checkPermissions(final Activity activity) {
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACTIVITY_RECOGNITION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity,
-                    new String[]{"Manifest.permission.ACTIVITY_RECOGNITION"},
-                    MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION);
-            return true;
-        }
-        else {
-            return false;
-        }
+//        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACTIVITY_RECOGNITION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(activity,
+//                    new String[]{"Manifest.permission.ACTIVITY_RECOGNITION"},
+//                    MY_PERMISSIONS_REQUEST_ACTIVITY_RECOGNITION);
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
+        return false;
     }
 
     protected FitnessOptions.Builder addPermissionToFitnessOptions(final FitnessOptions.Builder fitnessOptions, final ArrayList<Request> permissions) {
@@ -105,6 +110,8 @@ public class Manager implements ActivityEventListener {
                 case HEART_RATE:
                     fitnessOptions.addDataType(DataType.TYPE_HEART_RATE_BPM, currentRequest.permissionAccessType);
                     break;
+                case SLEEP_ANALYSIS:
+                    fitnessOptions.addDataType(DataType.TYPE_SLEEP_SEGMENT, currentRequest.permissionAccessType);
                 default:
                     break;
             }
@@ -121,6 +128,36 @@ public class Manager implements ActivityEventListener {
         return false;
     }
 
+
+    public void logout(@NonNull Activity currentActivity, final Promise promise) {
+        final GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+        GoogleSignIn.getClient(currentActivity, gso)
+                .revokeAccess()
+                .addOnCanceledListener(new OnCanceledListener() {
+                    @Override
+                    public void onCanceled() {
+                        promise.resolve(false);
+                    }
+                })
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        promise.resolve(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        promise.reject(e);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        promise.reject(e);
+                    }
+                });
+    }
 
 
 

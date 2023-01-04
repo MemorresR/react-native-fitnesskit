@@ -180,6 +180,7 @@
 }
 
 
+
 - (void)fetchEnergy:(HKQuantityType *)quantityType
                               unit:(HKUnit *)unit
                          predicate:(NSPredicate *)predicate
@@ -231,6 +232,87 @@
                                                                limit:lim
                                                      sortDescriptors:@[timeSortDescriptor]
                                                       resultsHandler:handlerBlock];
+
+    [self.healthStore executeQuery:query];
+}
+
+
+- (void)fetchSleep:(HKSampleType *)quantityType
+                         predicate:(NSPredicate *)predicate
+                         ascending:(BOOL)asc
+                             limit:(NSUInteger)lim
+                        completion:(void (^)(NSArray *, NSError *))completion {
+
+    
+    
+    NSSortDescriptor *timeSortDescriptor = [[NSSortDescriptor alloc] initWithKey:HKSampleSortIdentifierEndDate
+                                                                          ascending:asc];
+
+    // declare the block
+    void (^handlerBlock)(HKSampleQuery *query, NSArray *results, NSError *error);
+    // create and assign the block
+    handlerBlock = ^(HKSampleQuery *query, NSArray *results, NSError *error) {
+        if (!results) {
+            if (completion) {
+                completion(nil, error);
+            }
+            return;
+        }
+
+        if (completion) {
+            NSMutableArray *data = [NSMutableArray arrayWithCapacity:1];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                double minutesSleepAggr = 0;
+                for (HKCategorySample *sample in results) {
+                
+
+                    NSString *startDateString = [Fitnesskit buildISO8601StringSleepFromDate:sample.startDate];
+                    NSString *endDateString = [Fitnesskit buildISO8601StringSleepFromDate:sample.endDate];
+
+                    NSString *valueString;
+
+                                switch (sample.value) {
+                                    case HKCategoryValueSleepAnalysisInBed:
+                                      valueString = @"INBED";
+                                    break;
+                                    case HKCategoryValueSleepAnalysisAsleep:
+                                      valueString = @"ASLEEP";
+                                    break;
+                                   default:
+                                      valueString = @"UNKNOWN";
+                                   break;
+                                }
+                    NSDictionary *elem = @{
+                                       @"value" : valueString,
+                                       @"sourceName" : [[[sample sourceRevision] source] name],
+                                       @"sourceId" : [[[sample sourceRevision] source] bundleIdentifier],
+                                       @"startDate" : startDateString,
+                                       @"endDate" : endDateString,
+                               };
+
+                    NSTimeInterval distanceBetweenDates = [sample.endDate timeIntervalSinceDate:sample.startDate];
+                                double minutesInAnHour = 60;
+                                double minutesBetweenDates = distanceBetweenDates / minutesInAnHour;
+
+                                minutesSleepAggr += minutesBetweenDates;
+
+                    [data addObject:elem];
+                }
+
+                completion(data, error);
+            });
+        }
+    };
+
+    HKSampleType *sampleType = [HKSampleType categoryTypeForIdentifier:HKCategoryTypeIdentifierSleepAnalysis];
+
+        HKSampleQuery *query = [[HKSampleQuery alloc] initWithSampleType:sampleType
+                                                              predicate:predicate
+                                                                  limit:lim
+                                                        sortDescriptors:@[timeSortDescriptor]
+                                                         resultsHandler:handlerBlock];
+
 
     [self.healthStore executeQuery:query];
 }

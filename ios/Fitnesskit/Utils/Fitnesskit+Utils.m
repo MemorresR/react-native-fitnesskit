@@ -314,6 +314,30 @@
     return array;
 }
 
++ (NSDate *)dateFromTimeStamp:(NSTimeInterval)timestamp {
+    if (!timestamp) {
+        return [NSDate date];
+    }
+    
+    return [NSDate dateWithTimeIntervalSince1970:timestamp];
+}
+
++ (NSISO8601DateFormatter *)dateFormatter {
+    static dispatch_once_t once;
+    static NSISO8601DateFormatter *dateFormatter;
+    dispatch_once(&once, ^{
+        dateFormatter = [[NSISO8601DateFormatter alloc] init];
+    });
+    return dateFormatter;
+}
+
+
++ (NSString *)buildISO8601StringSleepFromDate:(NSDate *)date
+{
+    return [[self dateFormatter] stringFromDate:date];
+}
+
+
 + (NSString*)stringForHKWorkoutActivityType:(int) enumValue{
     switch( enumValue ){
         case HKWorkoutActivityTypeAmericanFootball:
